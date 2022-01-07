@@ -10,12 +10,13 @@ class ProductionHome extends StatefulWidget {
 
 class _ProductionHomeState extends State<ProductionHome> {
   final String title = "PRODUCTION";
-  final String btn1 = "Porcelain (OC)";
-  final String btn2 = "Laser";
-  final String btn3 = "Sandblasting";
+  final String btnTxt1 = "Porcelain (OC)";
+  final String btnTxt2 = "Laser";
+  final String btnTxt3 = "Sandblasting";
 
   @override
   Widget build(BuildContext context) {
-    return HomeWidget(title: title, btn1: btn1, btn2: btn2, btn3: btn3);
+    return HomeWidget(
+        title: title, btn1: btnTxt1, btn2: btnTxt2, btn3: btnTxt3);
   }
 }
