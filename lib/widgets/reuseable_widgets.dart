@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ReusableWidgets {
+  
   static getAppBar() {
     return AppBar(
       centerTitle: true,
@@ -16,6 +17,18 @@ class ReusableWidgets {
           itemBuilder: (context) => [],
         ),
       ],
+    );
+  }
+
+    static getAppBarForm(String title) {
+    return AppBar(
+      centerTitle: true,
+      title: Text(
+        title,
+        style: const TextStyle(color: Colors.black, fontSize: 15),
+      ),
+      automaticallyImplyLeading: false,
+      backgroundColor: Colors.white38,
     );
   }
 }

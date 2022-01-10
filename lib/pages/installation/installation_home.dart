@@ -10,12 +10,23 @@ class InstallationHome extends StatefulWidget {
 
 class _InstallationHomeState extends State<InstallationHome> {
   final String title = "INSTALLATION";
-  final String btn1 = "INSTALLATION-BTN";
-  final String btn2 = "INSTALLATION-BTN";
-  final String btn3 = "INSTALLATION-BTN";
+  final String btnTxt1 = "INSTALLATION-BTN";
+  final String btnTxt2 = "INSTALLATION-BTN";
+  final String btnTxt3 = "INSTALLATION-BTN";
+  final String url1 = "productionPicture";
+  final String url2 = "";
+  final String url3 = "/productionSandblasting";
 
   @override
   Widget build(BuildContext context) {
-    return HomeWidget(title: title, btn1: btn1, btn2: btn2, btn3: btn3);
+    return HomeWidget(
+      title: title,
+      btn1: btnTxt1,
+      btn2: btnTxt2,
+      btn3: btnTxt3,
+      url1: url1,
+      url2: url2,
+      url3: url3,
+    );
   }
 }

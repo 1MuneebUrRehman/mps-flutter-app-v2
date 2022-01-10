@@ -10,12 +10,23 @@ class CemeteryHome extends StatefulWidget {
 
 class _CemeteryHomeState extends State<CemeteryHome> {
   final String title = "CEMETERY";
-  final String btn1 = "CEMETERY-BTN";
-  final String btn2 = "CEMETERY-BTN";
-  final String btn3 = "CEMETERY-BTN";
+  final String btnTxt1 = "CEMETERY-BTN";
+  final String btnTxt2 = "CEMETERY-BTN";
+  final String btnTxt3 = "CEMETERY-BTN";
+  final String url1 = "productionPicture";
+  final String url2 = "";
+  final String url3 = "/productionSandblasting";
 
   @override
   Widget build(BuildContext context) {
-    return HomeWidget(title: title, btn1: btn1, btn2: btn2, btn3: btn3);
+    return HomeWidget(
+      title: title,
+      btn1: btnTxt1,
+      btn2: btnTxt2,
+      btn3: btnTxt3,
+      url1: url1,
+      url2: url2,
+      url3: url3,
+    );
   }
 }

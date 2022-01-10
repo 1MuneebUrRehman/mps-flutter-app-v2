@@ -9,14 +9,20 @@ class HomeWidget extends StatefulWidget {
   final String btn1;
   final String btn2;
   final String btn3;
+  final String url1;
+  final String url2;
+  final String url3;
 
-  const HomeWidget(
-      {Key? key,
-      required this.title,
-      required this.btn1,
-      required this.btn2,
-      required this.btn3})
-      : super(key: key);
+  const HomeWidget({
+    Key? key,
+    required this.title,
+    required this.btn1,
+    required this.btn2,
+    required this.btn3,
+    required this.url1,
+    required this.url2,
+    required this.url3,
+  }) : super(key: key);
 
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
@@ -41,7 +47,9 @@ class _HomeWidgetState extends State<HomeWidget> {
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
             title: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, widget.url1);
+                },
                 child: TextWidget(
                   title: widget.btn1,
                   color: Colors.white,
@@ -52,7 +60,9 @@ class _HomeWidgetState extends State<HomeWidget> {
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
             title: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, widget.url2);
+                },
                 child: TextWidget(
                   title: widget.btn2,
                   color: Colors.white,
@@ -63,7 +73,9 @@ class _HomeWidgetState extends State<HomeWidget> {
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
             title: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, widget.url3);
+                },
                 child: TextWidget(
                   title: widget.btn3,
                   color: Colors.white,
@@ -74,7 +86,9 @@ class _HomeWidgetState extends State<HomeWidget> {
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
             title: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 child: const TextWidget(
                   title: "Back",
                   color: Colors.black,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mps_app/pages/home.dart';
-import 'package:mps_app/utils/requests/getRequest.dart';
+import 'package:mps_app/utils/requests/allRequests.dart';
 import 'package:mps_app/widgets/alertDialog.dart';
 
 class Login extends StatefulWidget {
@@ -94,7 +94,7 @@ class _LoginState extends State<Login> {
                               child: const Text('Login'),
                               onPressed: () async {
                                 if (_loginFormKey.currentState!.validate()) {
-                                  var responseData = await GetRequest.login(
+                                  var responseData = await allRequests.login(
                                       emailController.text,
                                       passwordController.text);
                                   if (responseData == 200) {

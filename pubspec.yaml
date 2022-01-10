@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: ^2.0.11
   intl: ^0.17.0
   syncfusion_flutter_datagrid: ^19.1.69-beta
+  snippet_coder_utils: ^1.0.9
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mps_app/pages/home.dart';
 import 'package:mps_app/pages/login.dart';
+import 'package:mps_app/pages/production/laser/laser_form.dart';
+import 'package:mps_app/pages/production/laser/laser_form_list.dart';
+import 'package:mps_app/pages/production/porcelain/porcelain_form.dart';
+import 'package:mps_app/pages/production/porcelain/porcelain_form_list.dart';
+import 'package:mps_app/pages/production/sandblasting/sandblasting_form.dart';
+import 'package:mps_app/pages/production/sandblasting/sandblasting_form_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -16,7 +22,29 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MainPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const MainPage(),
+        '/login': (context) => const Login(),
+        '/productionPicture': (context) => const PorcelainFormList(),
+        '/productionPicture/index': (context) => const ProductionForm(
+            title: 'OC Picture (Porcelain) Production Form'),
+        '/productionPicture/add': (context) => const ProductionForm(
+              title: 'OC Picture (Porcelain) Production Form',
+            ),
+        '/productionSandblasting': (context) => const SandBlastingFormList(),
+        '/productionSandblasting/index': (context) =>
+            const SandBlastingForm(title: 'Sandblasting Production Form'),
+        '/productionSandblasting/add': (context) => const SandBlastingForm(
+              title: 'Sandblasting Production Form',
+            ),
+        '/productionLaser': (context) => const LaserFormList(),
+        '/productionLaser/index': (context) =>
+            const LaserForm(title: 'Laser Production Form'),
+        '/productionLaser/add': (context) => const LaserForm(
+              title: 'Laser Production Form',
+            ),
+      },
     );
   }
 }
@@ -47,8 +75,7 @@ class _MainPageState extends State<MainPage> {
     } else {
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => const Home()),
+        MaterialPageRoute(builder: (context) => const Home()),
       );
     }
   }
@@ -56,9 +83,8 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : const Login()
-    );
+        body: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : const Login());
   }
 }

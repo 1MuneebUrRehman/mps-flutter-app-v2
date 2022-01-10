@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mps_app/pages/cemetery/cemetery_home.dart';
 import 'package:mps_app/pages/installation/installation_home.dart';
 import 'package:mps_app/pages/production/production_home.dart';
-import 'package:mps_app/utils/requests/getRequest.dart';
 import 'package:mps_app/widgets/bottom_navigation.dart';
 import 'package:mps_app/widgets/navigation_drawer.dart';
 import 'package:mps_app/widgets/reuseable_widgets.dart';

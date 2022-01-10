@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:mps_app/utils/requests/getOrderList.dart';
 import 'package:mps_app/widgets/bottom_navigation.dart';
+import 'package:mps_app/widgets/deleteDialog.dart';
 import 'package:mps_app/widgets/navigation_drawer.dart';
 import 'package:mps_app/widgets/reuseable_widgets.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class FormListWidget extends StatefulWidget {
-  const FormListWidget({Key? key}) : super(key: key);
+  final String title;
+  final String url;
+  final String urlRoute;
+  final String urlAdd;
+  
+  const FormListWidget(
+      {Key? key,
+      required this.title,
+      required this.url,
+      required this.urlRoute,
+      required this.urlAdd})
+      : super(key: key);
 
   @override
   _FormListWidgetState createState() => _FormListWidgetState();
@@ -21,9 +33,9 @@ class _FormListWidgetState extends State<FormListWidget> {
       body: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text(
-            "Production",
-            style: TextStyle(color: Colors.black, fontSize: 15),
+          title: Text(
+            widget.title,
+            style: const TextStyle(color: Colors.black, fontSize: 15),
           ),
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white38,
@@ -36,7 +48,9 @@ class _FormListWidgetState extends State<FormListWidget> {
                 backgroundColor: const Color.fromRGBO(51, 103, 153, 1),
                 actions: <Widget>[
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, widget.urlAdd);
+                    },
                     icon: const Icon(
                       Icons.add_circle_outline,
                       color: Colors.white,
@@ -45,7 +59,7 @@ class _FormListWidgetState extends State<FormListWidget> {
                 ],
               ),
               body: FutureBuilder(
-                future: getOrderDataList('productProduction'),
+                future: getOrderDataList(widget.url),
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.hasData) {
@@ -65,25 +79,29 @@ class _FormListWidgetState extends State<FormListWidget> {
                             DataGridRow row, int rowIndex) {
                           return GestureDetector(
                               onTap: () {
-                                print("Add");
+                                var id = row.getCells()[0].value.toString();
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return const DeleteAlertDialog();
+                                    });
                               },
                               child: Container(
-                                  color: Colors.greenAccent,
+                                  color: Colors.redAccent,
                                   child: const Center(
-                                    child: Icon(Icons.add),
+                                    child: Icon(Icons.delete),
                                   )));
                         },
                         endSwipeActionsBuilder: (BuildContext context,
                             DataGridRow row, int rowIndex) {
                           return GestureDetector(
                               onTap: () {
-                                print("Remove");
-                                print(rowIndex);
+                                print("Add");
                               },
                               child: Container(
-                                  color: Colors.redAccent,
+                                  color: Colors.greenAccent,
                                   child: const Center(
-                                    child: Icon(Icons.delete),
+                                    child: Icon(Icons.add),
                                   )));
                         },
                         source: snapshot.data,

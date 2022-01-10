@@ -50,7 +50,7 @@ List<GridColumn> getColumns() {
 // Get Request
 Future<List<Product>> generateProductList(String url) async {
   var response =
-      await http.get(Uri.parse('http://mps.local/api/jwt/' + url + '/index'));
+      await http.get(Uri.parse(url));
   // Decode Data
   var decodedProducts = json.decode(response.body).cast<Map<String, dynamic>>();
   // Convert to List Product
