@@ -14,12 +14,17 @@ class _SandBlastingFormListState extends State<SandBlastingFormList> {
   String urlAdd = "/productionSandblasting/add";
   String url = "http://127.0.0.1:8000/api/jwt/productionSandblasting/index";
   String addUrl = "http://127.0.0.1:8000/api/jwt/productionSandblasting/store";
-  // String removeUrl = "";
+  String removeUrl = "http://127.0.0.1:8000/api/jwt/productionSandblasting/destroy/";
   // String editUrl = "";
 
   @override
   Widget build(BuildContext context) {
     return FormListWidget(
-        title: title, url: url, urlRoute: urlRoute, urlAdd: urlAdd);
+      title: title,
+      url: url,
+      urlRoute: urlRoute,
+      urlAdd: urlAdd,
+      removeUrl: removeUrl,
+    );
   }
 }

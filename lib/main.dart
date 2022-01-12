@@ -28,9 +28,12 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const Login(),
         '/productionPicture': (context) => const PorcelainFormList(),
         '/productionPicture/index': (context) => const ProductionForm(
-            title: 'OC Picture (Porcelain) Production Form'),
+              title: 'OC Picture (Porcelain) Production Form',
+              dataId: "0",
+            ),
         '/productionPicture/add': (context) => const ProductionForm(
               title: 'OC Picture (Porcelain) Production Form',
+              dataId: "0",
             ),
         '/productionSandblasting': (context) => const SandBlastingFormList(),
         '/productionSandblasting/index': (context) =>
@@ -39,10 +42,13 @@ class MyApp extends StatelessWidget {
               title: 'Sandblasting Production Form',
             ),
         '/productionLaser': (context) => const LaserFormList(),
-        '/productionLaser/index': (context) =>
-            const LaserForm(title: 'Laser Production Form'),
+        '/productionLaser/index': (context) => const LaserForm(
+              title: 'Laser Production Form',
+              dataId: "0",
+            ),
         '/productionLaser/add': (context) => const LaserForm(
               title: 'Laser Production Form',
+              dataId: "0",
             ),
       },
     );

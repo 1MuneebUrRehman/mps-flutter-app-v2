@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:mps_app/utils/classes/orders.dart';
+import 'package:mps_app/utils/classes/porcelain_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class allRequests {
-  
   static login(email, password) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map data = {'email': email, 'password': password};
@@ -41,7 +41,6 @@ class allRequests {
     }
   }
 
-
   static getOrderSource() async {
     List orders = await allRequests.getInvoiceOrders();
     List<dynamic> ordersList = [];
@@ -56,6 +55,16 @@ class allRequests {
     return ordersList;
   }
 
+  static deleteData(deleteUrl) async {
+    var response = await http.post(Uri.parse(deleteUrl));
+    return response.statusCode;
+  }
+
+  static showData(url) async {
+    var response = await http.post(Uri.parse(url));
+    final decodedResponse = jsonDecode(response.body) as Map;
+    return decodedResponse;
+  }
 
   static logOut() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

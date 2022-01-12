@@ -14,12 +14,16 @@ class _LaserFormListState extends State<LaserFormList> {
   String urlAdd = "/productionLaser/add";
   String url = "http://127.0.0.1:8000/api/jwt/productionLaser/index";
   String addUrl = "http://127.0.0.1:8000/api/jwt/productionLaser/store";
-  // String removeUrl = "";
-  // String editUrl = "";
-
+  String removeUrl = "http://127.0.0.1:8000/api/jwt/productionLaser/destroy/";
+  
   @override
   Widget build(BuildContext context) {
     return FormListWidget(
-        title: title, url: url, urlRoute: urlRoute, urlAdd: urlAdd);
+      title: title,
+      url: url,
+      urlRoute: urlRoute,
+      urlAdd: urlAdd,
+      removeUrl: removeUrl,
+    );
   }
 }

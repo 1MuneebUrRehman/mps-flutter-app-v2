@@ -10,8 +10,10 @@ import 'package:snippet_coder_utils/FormHelper.dart';
 
 class LaserForm extends StatefulWidget {
   final String title;
+  final String dataId;
 
-  const LaserForm({Key? key, required this.title}) : super(key: key);
+  const LaserForm({Key? key, required this.title, required this.dataId})
+      : super(key: key);
 
   @override
   _LaserFormState createState() => _LaserFormState();
@@ -27,27 +29,52 @@ class _LaserFormState extends State<LaserForm> {
   final _sizeOfDie = TextEditingController();
 
   DateTime dateTime = DateTime.now();
-
+  int _id = 0;
   String? _orderId;
   List<dynamic> orderList = [];
   String? orderListId;
+  Map? editData;
+  final String showUrl =
+      "http://127.0.0.1:8000/api/jwt/productionLaser/show/";
 
-  getOrderSource() async {
-    List orders = await allRequests.getInvoiceOrders();
-    List<dynamic> ordersList = [];
-
-    for (var order in orders) {
-      ordersList.add({
-        'id': order.id,
-        'invoice': order.invoice.invoiceNumber,
-        'lastName': order.family.lastName
-      });
-    }
-
+  editDataFunc() async {
+    var data = await allRequests.showData(showUrl + widget.dataId);
     setState(() {
-      orderList = ordersList;
+      editData = data;
     });
-    return orderList;
+    print("object");
+    print(editData);
+
+    // setDataFunc();
+  }
+
+  setDataFunc() {
+    _id = editData!['id'];
+    _lastName.text =
+        editData!['picture_list'][0]['order']['family']['name_on_stone'];
+    // _sizeOfPhoto.text = editData!['picture_list'][0]['size_of_photo'];
+    _dateinput.text = editData!['date'];
+    _weekOf.text = editData!['week_of'];
+    _initials.text = editData!['picture_list'][0]['initials'];
+    // _complete = (editData!['picture_list'][0]['complete'] == 'YES') ? 1 : 2;
+    _orderId = editData!['picture_list'][0]['order_id'].toString();
+
+    if (_id != 0) {
+      List selectedList;
+      orderListId = _orderId.toString();
+      selectedList = orderList
+          .where((element) => element['id'].toString() == _orderId.toString())
+          .toList();
+      _orderId = selectedList[0]['id'].toString();
+      _lastName.text = selectedList[0]['lastName'];
+    }
+  }
+
+  getOrders() async {
+    var orders = await allRequests.getOrderSource();
+    setState(() {
+      orderList = orders;
+    });
   }
 
   postData(data) async {
@@ -72,7 +99,10 @@ class _LaserFormState extends State<LaserForm> {
   @override
   void initState() {
     super.initState();
-    getOrderSource();
+    getOrders();
+    if (widget.dataId != "0") {
+      editDataFunc();
+    }
   }
 
   @override
@@ -355,7 +385,7 @@ class _LaserFormState extends State<LaserForm> {
                                           content: Text('Processing Data')),
                                     );
                                     Map<String, String?> data = {
-                                      "id": "0",
+                                      "id": _id.toString(),
                                       "week_of": _weekOf.text,
                                       "order_id": _orderId,
                                       "size_of_die": _sizeOfDie.text,

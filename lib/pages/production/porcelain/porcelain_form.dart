@@ -10,7 +10,9 @@ import 'package:snippet_coder_utils/FormHelper.dart';
 
 class ProductionForm extends StatefulWidget {
   final String title;
-  const ProductionForm({Key? key, required this.title}) : super(key: key);
+  final String dataId;
+  const ProductionForm({Key? key, required this.title, required this.dataId})
+      : super(key: key);
 
   @override
   _ProductionFormState createState() => _ProductionFormState();
@@ -23,13 +25,46 @@ class _ProductionFormState extends State<ProductionForm> {
   final _dateinput = TextEditingController();
   final _weekOf = TextEditingController();
   final _initials = TextEditingController();
-
   DateTime dateTime = DateTime.now();
 
   int? _complete = 1;
+  int _id = 0;
   String? _orderId;
   List<dynamic> orderList = [];
   String? orderListId;
+  Map? editData;
+  final String showUrl =
+      "http://127.0.0.1:8000/api/jwt/productionPicture/show/";
+
+  editDataFunc() async {
+    var data = await allRequests.showData(showUrl + widget.dataId);
+    setState(() {
+      editData = data;
+    });
+    setDataFunc();
+  }
+
+  setDataFunc() {
+    _id = editData!['id'];
+    _lastName.text =
+        editData!['picture_list'][0]['order']['family']['name_on_stone'];
+    _sizeOfPhoto.text = editData!['picture_list'][0]['size_of_photo'];
+    _dateinput.text = editData!['date'];
+    _weekOf.text = editData!['week_of'];
+    _initials.text = editData!['picture_list'][0]['initials'];
+    _complete = (editData!['picture_list'][0]['complete'] == 'YES') ? 1 : 2;
+    _orderId = editData!['picture_list'][0]['order_id'].toString();
+
+    if (_id != 0) {
+      List selectedList;
+      orderListId = _orderId.toString();
+      selectedList = orderList
+          .where((element) => element['id'].toString() == _orderId.toString())
+          .toList();
+      _orderId = selectedList[0]['id'].toString();
+      _lastName.text = selectedList[0]['lastName'];
+    }
+  }
 
   getOrders() async {
     var orders = await allRequests.getOrderSource();
@@ -51,7 +86,11 @@ class _ProductionFormState extends State<ProductionForm> {
         title: const Text("Error...!"),
         content: const Text("Please Fill your Form Correctly...!"),
         actions: [
-          ElevatedButton(onPressed: () {}, child: const Text("OK")),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("OK")),
         ],
       );
     }
@@ -61,6 +100,9 @@ class _ProductionFormState extends State<ProductionForm> {
   void initState() {
     super.initState();
     getOrders();
+    if (widget.dataId != "0") {
+      editDataFunc();
+    }
   }
 
   @override
@@ -346,7 +388,7 @@ class _ProductionFormState extends State<ProductionForm> {
                                           content: Text('Processing Data')),
                                     );
                                     Map<String, String?> data = {
-                                      "id": "0",
+                                      "id": _id.toString(),
                                       "week_of": _weekOf.text,
                                       "order_id": _orderId,
                                       "size_of_photo": _sizeOfPhoto.text,

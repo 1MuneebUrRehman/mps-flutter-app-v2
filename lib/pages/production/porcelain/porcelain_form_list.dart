@@ -14,11 +14,16 @@ class _PorcelainFormListState extends State<PorcelainFormList> {
   String urlAdd = "/productionPicture/add";
   String url = "http://127.0.0.1:8000/api/jwt/productionPicture/index";
   String addUrl = "http://127.0.0.1:8000/api/jwt/productionPicture/store";
-  // String removeUrl = "";
-  // String editUrl = "";
+  String removeUrl = "http://127.0.0.1:8000/api/jwt/productionPicture/destroy/";
 
   @override
   Widget build(BuildContext context) {
-    return FormListWidget(title: title, url: url, urlRoute: urlRoute, urlAdd: urlAdd);
+    return FormListWidget(
+        title: title,
+        url: url,
+        urlRoute: urlRoute,
+        urlAdd: urlAdd,
+        removeUrl: removeUrl,
+        );
   }
 }
