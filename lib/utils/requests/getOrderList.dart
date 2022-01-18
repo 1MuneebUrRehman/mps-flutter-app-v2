@@ -14,43 +14,34 @@ List<GridColumn> getColumns() {
   return <GridColumn>[
     GridColumn(
         columnName: 'Id',
-        width: 100,
         label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerRight,
-            child:
-                const Text('ID', overflow: TextOverflow.clip, softWrap: true))),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            alignment: Alignment.center,
+            child: const Text('ID', overflow: TextOverflow.ellipsis))),
     GridColumn(
         columnName: 'Date',
-        width: 100,
         label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerRight,
-            child: const Text('Date',
-                overflow: TextOverflow.clip, softWrap: true))),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            alignment: Alignment.center,
+            child: const Text('Date', overflow: TextOverflow.ellipsis))),
     GridColumn(
         columnName: 'Week',
-        width: 100,
         label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerLeft,
-            child: const Text('Week',
-                overflow: TextOverflow.clip, softWrap: true))),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            alignment: Alignment.center,
+            child: const Text('Week', overflow: TextOverflow.ellipsis))),
     GridColumn(
         columnName: 'Entries',
-        width: 100,
         label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerRight,
-            child: const Text('Entries',
-                overflow: TextOverflow.clip, softWrap: true))),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            alignment: Alignment.center,
+            child: const Text('Entries', overflow: TextOverflow.ellipsis))),
   ];
 }
 
 // Get Request
 Future<List<Product>> generateProductList(String url) async {
-  var response =
-      await http.get(Uri.parse(url));
+  var response = await http.get(Uri.parse(url));
   // Decode Data
   var decodedProducts = json.decode(response.body).cast<Map<String, dynamic>>();
   // Convert to List Product
@@ -73,40 +64,16 @@ class OrderDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: [
-      Container(
-        child: Text(
-          row.getCells()[0].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(8.0),
-      ),
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          DateFormat('MM/dd/yyyy').format(row.getCells()[1].value).toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          row.getCells()[2].value,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          row.getCells()[3].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    ]);
+    return DataGridRowAdapter(
+        cells: row.getCells().map<Widget>((dataGridCell) {
+      return Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            dataGridCell.value.toString(),
+            overflow: TextOverflow.ellipsis,
+          ));
+    }).toList());
   }
 
   void buildDataGridRow() {
@@ -114,12 +81,12 @@ class OrderDataGridSource extends DataGridSource {
     dataGridRows = productList.map<DataGridRow>((dataGridRow) {
       return DataGridRow(cells: [
         DataGridCell<int>(columnName: 'Id', value: dataGridRow.id),
-        DataGridCell<DateTime>(columnName: 'Date', value: dataGridRow.date),
-        DataGridCell<String>(columnName: 'Week', value: dataGridRow.week_of),
+        DataGridCell<String>(columnName: 'Date', value: dataGridRow.date),
+        DataGridCell<String>(columnName: 'Week', value: dataGridRow.weekOf),
         DataGridCell<int>(
-            columnName: 'Entries', value: dataGridRow.total_entries),
+            columnName: 'Entries', value: dataGridRow.totalEntries),
       ]);
-    }).toList(growable: false);
+    }).toList();
   }
 
   void updateDataGridSource() {
@@ -131,18 +98,18 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
         id: json['id'],
-        date: DateTime.parse(json['date']),
-        week_of: json['week_of'],
-        total_entries: json['total_entries']);
+        date: DateFormat("yyyy-MM-dd").format(DateTime.parse(json['date'])),
+        weekOf: json['week_of'],
+        totalEntries: json['total_entries']);
   }
   Product({
     required this.id,
     required this.date,
-    required this.week_of,
-    required this.total_entries,
+    required this.weekOf,
+    required this.totalEntries,
   });
   final int? id;
-  final DateTime? date;
-  final String? week_of;
-  final int? total_entries;
+  final String? date;
+  final String? weekOf;
+  final int? totalEntries;
 }

@@ -34,30 +34,26 @@ class _LaserFormState extends State<LaserForm> {
   List<dynamic> orderList = [];
   String? orderListId;
   Map? editData;
-  final String showUrl =
-      "http://127.0.0.1:8000/api/jwt/productionLaser/show/";
+  final String showUrl = "http://127.0.0.1:8000/api/jwt/productionLaser/show/";
 
   editDataFunc() async {
     var data = await allRequests.showData(showUrl + widget.dataId);
     setState(() {
       editData = data;
     });
-    print("object");
-    print(editData);
-
-    // setDataFunc();
+    setDataFunc();
   }
 
   setDataFunc() {
     _id = editData!['id'];
-    _lastName.text =
-        editData!['picture_list'][0]['order']['family']['name_on_stone'];
-    // _sizeOfPhoto.text = editData!['picture_list'][0]['size_of_photo'];
     _dateinput.text = editData!['date'];
     _weekOf.text = editData!['week_of'];
-    _initials.text = editData!['picture_list'][0]['initials'];
-    // _complete = (editData!['picture_list'][0]['complete'] == 'YES') ? 1 : 2;
-    _orderId = editData!['picture_list'][0]['order_id'].toString();
+    _lastName.text =
+        editData!['laser_list'][0]['order']['family']['name_on_stone'];
+    _initials.text = editData!['laser_list'][0]['initials'];
+    _sizeOfDie.text = editData!['laser_list'][0]['size_of_die'];
+    _totalSqtft.text = editData!['laser_list'][0]['total_sq_ft'];
+    _orderId = editData!['laser_list'][0]['order_id'].toString();
 
     if (_id != 0) {
       List selectedList;

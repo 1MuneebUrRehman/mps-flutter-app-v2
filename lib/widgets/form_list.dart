@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mps_app/pages/production/laser/laser_form.dart';
 import 'package:mps_app/pages/production/porcelain/porcelain_form.dart';
+import 'package:mps_app/pages/production/sandblasting/sandblasting_form.dart';
 import 'package:mps_app/utils/requests/allRequests.dart';
 import 'package:mps_app/utils/requests/getOrderList.dart';
 import 'package:mps_app/widgets/bottom_navigation.dart';
@@ -74,6 +75,7 @@ class _FormListWidgetState extends State<FormListWidget> {
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.hasData) {
                     return SfDataGrid(
+                        columnWidthMode: ColumnWidthMode.fill,
                         allowSwiping: true,
                         onSwipeStart: (details) {
                           if (details.swipeDirection ==
@@ -132,15 +134,41 @@ class _FormListWidgetState extends State<FormListWidget> {
                           return GestureDetector(
                               onTap: () async {
                                 var id = row.getCells()[0].value.toString();
-                              
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LaserForm(
-                                            title: widget.title,
-                                            dataId: id,
-                                          )),
-                                );
+                                String urlName = widget.urlRoute.split("/")[1];
+                                switch (urlName) {
+                                  case "productionPicture":
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ProductionForm(
+                                                title: widget.title,
+                                                dataId: id,
+                                              )),
+                                    );
+                                    break;
+                                  case "productionLaser":
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LaserForm(
+                                                title: widget.title,
+                                                dataId: id,
+                                              )),
+                                    );
+                                    break;
+                                  case "productionSandblasting":
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SandBlastingForm(
+                                                title: widget.title,
+                                                dataId: id,
+                                              )),
+                                    );
+                                    break;
+                                  default:
+                                }
                               },
                               child: Container(
                                   color: Colors.blue,

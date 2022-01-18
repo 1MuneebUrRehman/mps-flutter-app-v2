@@ -36,10 +36,13 @@ class MyApp extends StatelessWidget {
               dataId: "0",
             ),
         '/productionSandblasting': (context) => const SandBlastingFormList(),
-        '/productionSandblasting/index': (context) =>
-            const SandBlastingForm(title: 'Sandblasting Production Form'),
+        '/productionSandblasting/index': (context) => const SandBlastingForm(
+              title: 'Sandblasting Production Form',
+              dataId: "0",
+            ),
         '/productionSandblasting/add': (context) => const SandBlastingForm(
               title: 'Sandblasting Production Form',
+              dataId: "0",
             ),
         '/productionLaser': (context) => const LaserFormList(),
         '/productionLaser/index': (context) => const LaserForm(

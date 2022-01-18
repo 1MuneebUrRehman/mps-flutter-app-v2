@@ -10,8 +10,10 @@ import 'package:snippet_coder_utils/FormHelper.dart';
 
 class SandBlastingForm extends StatefulWidget {
   final String title;
+  final String dataId;
 
-  const SandBlastingForm({Key? key, required this.title}) : super(key: key);
+  const SandBlastingForm({Key? key, required this.title, required this.dataId})
+      : super(key: key);
 
   @override
   _SandBlastingFormState createState() => _SandBlastingFormState();
@@ -27,27 +29,48 @@ class _SandBlastingFormState extends State<SandBlastingForm> {
   final _sizeOfDie = TextEditingController();
 
   DateTime dateTime = DateTime.now();
-
+  int _id = 0;
   String? _orderId;
   List<dynamic> orderList = [];
   String? orderListId;
+  Map? editData;
+  final String showUrl = "http://127.0.0.1:8000/api/jwt/productionSandblasting/show/";
 
-  getOrderSource() async {
-    List orders = await allRequests.getInvoiceOrders();
-    List<dynamic> ordersList = [];
-
-    for (var order in orders) {
-      ordersList.add({
-        'id': order.id,
-        'invoice': order.invoice.invoiceNumber,
-        'lastName': order.family.lastName
-      });
-    }
-
+  editDataFunc() async {
+    var data = await allRequests.showData(showUrl + widget.dataId);
     setState(() {
-      orderList = ordersList;
+      editData = data;
     });
-    return orderList;
+    setDataFunc();
+  }
+
+  setDataFunc() {
+    _id = editData!['id'];
+    _dateinput.text = editData!['date'];
+    _weekOf.text = editData!['week_of'];
+    _lastName.text =
+        editData!['sandblast_list'][0]['order']['family']['name_on_stone'];
+    _initials.text = editData!['sandblast_list'][0]['initials'];
+    _sizeOfDie.text = editData!['sandblast_list'][0]['size_of_die'];
+    _totalSqtft.text = editData!['sandblast_list'][0]['total_sq_ft'];
+    _orderId = editData!['sandblast_list'][0]['order_id'].toString();
+
+    if (_id != 0) {
+      List selectedList;
+      orderListId = _orderId.toString();
+      selectedList = orderList
+          .where((element) => element['id'].toString() == _orderId.toString())
+          .toList();
+      _orderId = selectedList[0]['id'].toString();
+      _lastName.text = selectedList[0]['lastName'];
+    }
+  }
+
+  getOrders() async {
+    var orders = await allRequests.getOrderSource();
+    setState(() {
+      orderList = orders;
+    });
   }
 
   postData(data) async {
@@ -56,8 +79,7 @@ class _SandBlastingFormState extends State<SandBlastingForm> {
     if (statusCode == 200) {
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => const SandBlastingFormList()),
+        MaterialPageRoute(builder: (context) => const SandBlastingFormList()),
       );
     } else {
       AlertDialog(
@@ -73,7 +95,10 @@ class _SandBlastingFormState extends State<SandBlastingForm> {
   @override
   void initState() {
     super.initState();
-    getOrderSource();
+    getOrders();
+    if (widget.dataId != "0") {
+      editDataFunc();
+    }
   }
 
   @override
@@ -356,7 +381,7 @@ class _SandBlastingFormState extends State<SandBlastingForm> {
                                           content: Text('Processing Data')),
                                     );
                                     Map<String, String?> data = {
-                                      "id": "0",
+                                      "id": _id.toString(),
                                       "week_of": _weekOf.text,
                                       "order_id": _orderId,
                                       "size_of_die": _sizeOfDie.text,
