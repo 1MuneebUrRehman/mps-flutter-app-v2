@@ -48,7 +48,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
             title: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, widget.url1);
+                  if (widget.url1.isNotEmpty) {
+                    Navigator.pushNamed(context, widget.url1);
+                  }
                 },
                 child: TextWidget(
                   title: widget.btn1,
@@ -61,7 +63,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
             title: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, widget.url2);
+                  if (widget.url2.isNotEmpty) {
+                    Navigator.pushNamed(context, widget.url2);
+                  }
                 },
                 child: TextWidget(
                   title: widget.btn2,
@@ -74,7 +78,9 @@ class _HomeWidgetState extends State<HomeWidget> {
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
             title: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, widget.url3);
+                  if (widget.url3.isNotEmpty) {
+                    Navigator.pushNamed(context, widget.url3);
+                  }
                 },
                 child: TextWidget(
                   title: widget.btn3,

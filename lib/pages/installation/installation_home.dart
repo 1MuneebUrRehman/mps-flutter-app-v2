@@ -13,9 +13,9 @@ class _InstallationHomeState extends State<InstallationHome> {
   final String btnTxt1 = "INSTALLATION-BTN";
   final String btnTxt2 = "INSTALLATION-BTN";
   final String btnTxt3 = "INSTALLATION-BTN";
-  final String url1 = "productionPicture";
+  final String url1 = "";
   final String url2 = "";
-  final String url3 = "/productionSandblasting";
+  final String url3 = "";
 
   @override
   Widget build(BuildContext context) {

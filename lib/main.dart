@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const MainPage(),
         '/login': (context) => const Login(),
+        '/home': (context) => const Home(),
         '/productionPicture': (context) => const PorcelainFormList(),
         '/productionPicture/index': (context) => const ProductionForm(
               title: 'OC Picture (Porcelain) Production Form',

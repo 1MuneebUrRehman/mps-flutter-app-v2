@@ -100,11 +100,7 @@ class _LoginState extends State<Login> {
                                   if (responseData == 200) {
                                     emailController.text = "";
                                     passwordController.text = "";
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                const Home()),
-                                        (Route<dynamic> route) => false);
+                                    Navigator.of(context).pushReplacementNamed('/home');
                                   } else {
                                     showDialog(
                                         context: context,
