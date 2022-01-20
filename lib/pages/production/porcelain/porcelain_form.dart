@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mps_app/pages/production/porcelain/porcelain_form_list.dart';
-import 'package:mps_app/utils/requests/allRequests.dart';
+import 'package:mps_app/utils/requests/AllRequests.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:mps_app/widgets/bottom_navigation.dart';
@@ -37,7 +37,7 @@ class _ProductionFormState extends State<ProductionForm> {
       "http://127.0.0.1:8000/api/jwt/productionPicture/show/";
 
   editDataFunc() async {
-    var data = await allRequests.showData(showUrl + widget.dataId);
+    var data = await AllRequests.showData(showUrl + widget.dataId);
     setState(() {
       editData = data;
     });
@@ -67,14 +67,14 @@ class _ProductionFormState extends State<ProductionForm> {
   }
 
   getOrders() async {
-    var orders = await allRequests.getOrderSource();
+    var orders = await AllRequests.getOrderSource();
     setState(() {
       orderList = orders;
     });
   }
 
   postData(data) async {
-    int statusCode = await allRequests.postData(
+    int statusCode = await AllRequests.postData(
         "http://127.0.0.1:8000/api/jwt/productionPicture/store", data);
     if (statusCode == 200) {
       Navigator.push(

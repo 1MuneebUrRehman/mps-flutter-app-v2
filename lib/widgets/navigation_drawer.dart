@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mps_app/pages/collaborations.dart';
 import 'package:mps_app/pages/login.dart';
-import 'package:mps_app/utils/requests/allRequests.dart';
+import 'package:mps_app/utils/requests/AllRequests.dart';
 
 class NavigationDrawerWidget extends StatefulWidget {
   const NavigationDrawerWidget({Key? key}) : super(key: key);
@@ -85,7 +85,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               textAlign: TextAlign.center,
             ),
             onTap: () {
-              allRequests.logOut();
+              AllRequests.logOut();
               Navigator.pop(context);
 
               Navigator.of(context).pushAndRemoveUntil(

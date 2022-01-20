@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mps_app/pages/production/porcelain/porcelain_form_list.dart';
-import 'package:mps_app/utils/requests/allRequests.dart';
+import 'package:mps_app/utils/requests/AllRequests.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:mps_app/widgets/bottom_navigation.dart';
@@ -32,7 +32,7 @@ class _FormWidgetState extends State<FormWidget> {
   String? orderListId;
 
   getOrderSource() async {
-    List orders = await allRequests.getInvoiceOrders();
+    List orders = await AllRequests.getInvoiceOrders();
     List<dynamic> ordersList = [];
 
     for (var order in orders) {
@@ -50,7 +50,7 @@ class _FormWidgetState extends State<FormWidget> {
   }
 
   postData(data) async {
-    int statusCode = await allRequests.postData(
+    int statusCode = await AllRequests.postData(
         "http://127.0.0.1:8000/api/jwt/productionSandblasting/store", data);
     if (statusCode == 200) {
       Navigator.push(

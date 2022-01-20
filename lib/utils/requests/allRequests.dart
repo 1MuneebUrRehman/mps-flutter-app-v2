@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:mps_app/utils/classes/orders.dart';
-import 'package:mps_app/utils/classes/porcelain_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-class allRequests {
+class AllRequests {
   static login(email, password) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map data = {'email': email, 'password': password};
@@ -42,7 +40,7 @@ class allRequests {
   }
 
   static getOrderSource() async {
-    List orders = await allRequests.getInvoiceOrders();
+    List orders = await AllRequests.getInvoiceOrders();
     List<dynamic> ordersList = [];
 
     for (var order in orders) {
