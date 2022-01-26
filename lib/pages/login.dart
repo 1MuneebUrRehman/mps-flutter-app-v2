@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mps_app/utils/requests/AllRequests.dart';
-import 'package:mps_app/widgets/alertDialog.dart';
+import 'package:mps_app/widgets/alert_dialog.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);

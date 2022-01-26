@@ -346,8 +346,6 @@ class _ProductionFormState extends State<ProductionForm> {
                                         setState(() {
                                           _dateinput.text = formattedDate;
                                         });
-                                      } else {
-                                        print("Date is not selected");
                                       }
                                     },
                                     validator: (value) {

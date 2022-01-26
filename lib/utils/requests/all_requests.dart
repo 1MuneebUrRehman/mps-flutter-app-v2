@@ -34,7 +34,6 @@ class AllRequests {
       final response = await http.post(Uri.parse(url), body: data);
       return response.statusCode;
     } catch (er) {
-      print(er);
       return 400;
     }
   }

@@ -312,8 +312,6 @@ class _FormWidgetState extends State<FormWidget> {
                                         setState(() {
                                           _dateinput.text = formattedDate;
                                         });
-                                      } else {
-                                        print("Date is not selected");
                                       }
                                     },
                                     validator: (value) {

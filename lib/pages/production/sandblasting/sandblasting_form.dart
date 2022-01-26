@@ -339,8 +339,6 @@ class _SandBlastingFormState extends State<SandBlastingForm> {
                                         setState(() {
                                           _dateinput.text = formattedDate;
                                         });
-                                      } else {
-                                        print("Date is not selected");
                                       }
                                     },
                                     validator: (value) {

@@ -339,8 +339,6 @@ class _LaserFormState extends State<LaserForm> {
                                         setState(() {
                                           _dateinput.text = formattedDate;
                                         });
-                                      } else {
-                                        print("Date is not selected");
                                       }
                                     },
                                     validator: (value) {
