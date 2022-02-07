@@ -22,7 +22,7 @@ class _LoginState extends State<Login> {
         appBar: AppBar(
           centerTitle: true,
           title: Image.asset(
-            'assets/ogo.png',
+            'assets/logo.png',
             fit: BoxFit.cover,
           ),
           foregroundColor: Colors.black,
@@ -93,6 +93,9 @@ class _LoginState extends State<Login> {
                             child: ElevatedButton(
                               child: const Text('Login'),
                               onPressed: () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
                                 if (_loginFormKey.currentState!.validate()) {
                                   var responseData = await AllRequests.login(
                                       emailController.text,
@@ -106,11 +109,31 @@ class _LoginState extends State<Login> {
                                         return const Home();
                                       },
                                     ), (route) => false);
-                                  } else {
+                                  } else if (responseData == 422) {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return const AlertDialogWidget();
+                                        });
+                                    emailController.text = "";
+                                    passwordController.text = "";
+                                  } else {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text("Error...!"),
+                                            content: const Text(
+                                                "Sorry for inconvenience...! Some Error occur."),
+                                            actions: [
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(
+                                                        context, true);
+                                                  },
+                                                  child: const Text("OK"))
+                                            ],
+                                          );
                                         });
                                     emailController.text = "";
                                     passwordController.text = "";

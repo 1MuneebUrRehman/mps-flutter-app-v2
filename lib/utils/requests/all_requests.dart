@@ -5,17 +5,25 @@ import 'package:mps_app/utils/utility.dart';
 import 'package:http/http.dart' as http;
 
 class AllRequests {
-  static String loginUrl = "http://127.0.0.1:8000/api/login";
+  static String loginUrl = "https://mps-dev.uforialogic.com/api/login";
 
   static login(email, password) async {
-    Map data = {'email': email, 'password': password};
-    var response = await http.post(Uri.parse(loginUrl), body: data);
-    if (response.statusCode == 200) {
-      var jsonResponse = json.decode(response.body);
-      await CustomSharedPreferences.setToken(jsonResponse['auth_token']);
-      return response.statusCode;
-    } else {
-      return response.statusCode;
+    try {
+      Map data = {'email': email, 'password': password};
+      var response = await http.post(Uri.parse(loginUrl), body: data, headers: {
+        "Accept": "application/json",
+        "Access-Control_Allow_Origin": "*"
+      });
+      if (response.statusCode == 200) {
+        var jsonResponse = json.decode(response.body);
+        await CustomSharedPreferences.setToken(jsonResponse['auth_token']);
+
+        return response.statusCode;
+      } else {
+        return response.statusCode;
+      }
+    } catch (e) {
+      return e;
     }
   }
 
@@ -25,6 +33,7 @@ class AllRequests {
         await http.get(Uri.parse(Utility.baseUrl + "invoiceOrders"), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
+      "Access-Control_Allow_Origin": "*",
       'Authorization': 'Bearer $token',
     });
 
@@ -43,6 +52,7 @@ class AllRequests {
           await http.post(Uri.parse(url), body: json.encode(data), headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        "Access-Control_Allow_Origin": "*",
         'Authorization': 'Bearer $token',
       });
       return response.statusCode;
@@ -70,6 +80,7 @@ class AllRequests {
     var response = await http.post(Uri.parse(deleteUrl), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
+      "Access-Control_Allow_Origin": "*",
       'Authorization': 'Bearer $token',
     });
     return response.statusCode;
@@ -81,6 +92,7 @@ class AllRequests {
     var response = await http.post(Uri.parse(url), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
+      "Access-Control_Allow_Origin": "*",
       'Authorization': 'Bearer $token',
     });
     final decodedResponse = jsonDecode(response.body) as Map;

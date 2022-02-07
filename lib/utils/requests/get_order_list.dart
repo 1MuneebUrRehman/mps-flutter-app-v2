@@ -47,6 +47,7 @@ Future<List<Product>> generateProductList(String url) async {
   var response = await http.get(Uri.parse(url), headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
+      "Access-Control_Allow_Origin": "*",
     'Authorization': 'Bearer $token',
   });
   // Decode Data
