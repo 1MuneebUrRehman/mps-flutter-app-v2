@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mps_app/pages/collaborations.dart';
 import 'package:mps_app/pages/login.dart';
-import 'package:mps_app/utils/requests/AllRequests.dart';
+import 'package:mps_app/utils/requests/all_requests.dart';
 
 class NavigationDrawerWidget extends StatefulWidget {
   const NavigationDrawerWidget({Key? key}) : super(key: key);
