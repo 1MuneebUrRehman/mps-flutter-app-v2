@@ -22,7 +22,7 @@ class _LoginState extends State<Login> {
         appBar: AppBar(
           centerTitle: true,
           title: Image.asset(
-            'logo.png',
+            'assets/ogo.png',
             fit: BoxFit.cover,
           ),
           foregroundColor: Colors.black,
