@@ -93,13 +93,13 @@ class _LoginState extends State<Login> {
                             child: ElevatedButton(
                               child: const Text('Login'),
                               onPressed: () async {
-                                setState(() {
-                                  isLoading = true;
-                                });
                                 if (_loginFormKey.currentState!.validate()) {
                                   var responseData = await AllRequests.login(
                                       emailController.text,
                                       passwordController.text);
+                                  setState(() {
+                                    isLoading = true;
+                                  });
                                   if (responseData == 200) {
                                     emailController.text = "";
                                     passwordController.text = "";
