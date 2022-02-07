@@ -1,17 +1,18 @@
 import 'dart:convert';
 import 'package:mps_app/utils/classes/orders.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mps_app/utils/classes/custom_shared_preferences.dart';
+import 'package:mps_app/utils/utility.dart';
 import 'package:http/http.dart' as http;
 
 class AllRequests {
+  static String loginUrl = "http://127.0.0.1:8000/api/login";
+
   static login(email, password) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map data = {'email': email, 'password': password};
-    var response = await http
-        .post(Uri.parse("http://127.0.0.1:8000/api/jwt/login"), body: data);
+    var response = await http.post(Uri.parse(loginUrl), body: data);
     if (response.statusCode == 200) {
       var jsonResponse = json.decode(response.body);
-      sharedPreferences.setString("token", jsonResponse['access_token']);
+      await CustomSharedPreferences.setToken(jsonResponse['auth_token']);
       return response.statusCode;
     } else {
       return response.statusCode;
@@ -19,8 +20,14 @@ class AllRequests {
   }
 
   static Future<List> getInvoiceOrders() async {
-    var response = await http
-        .get(Uri.parse('http://127.0.0.1:8000/api/jwt/invoiceOrders'));
+    var token = CustomSharedPreferences.getToken();
+    var response =
+        await http.get(Uri.parse(Utility.baseUrl + "invoiceOrders"), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
     var decodedResponse =
         json.decode(response.body).cast<Map<String, dynamic>>();
     List<Order> orders = await decodedResponse
@@ -30,8 +37,14 @@ class AllRequests {
   }
 
   static Future<int> postData(url, data) async {
+    var token = CustomSharedPreferences.getToken();
     try {
-      final response = await http.post(Uri.parse(url), body: data);
+      final response =
+          await http.post(Uri.parse(url), body: json.encode(data), headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
       return response.statusCode;
     } catch (er) {
       return 400;
@@ -53,18 +66,28 @@ class AllRequests {
   }
 
   static deleteData(deleteUrl) async {
-    var response = await http.post(Uri.parse(deleteUrl));
+    var token = CustomSharedPreferences.getToken();
+    var response = await http.post(Uri.parse(deleteUrl), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
     return response.statusCode;
   }
 
   static showData(url) async {
-    var response = await http.post(Uri.parse(url));
+    var token = CustomSharedPreferences.getToken();
+
+    var response = await http.post(Uri.parse(url), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
     final decodedResponse = jsonDecode(response.body) as Map;
     return decodedResponse;
   }
 
   static logOut() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.remove('token');
+    CustomSharedPreferences.removeToken();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mps_app/utils/utility.dart';
 import 'package:mps_app/widgets/form_list.dart';
 
 class PorcelainFormList extends StatefulWidget {
@@ -12,9 +13,14 @@ class _PorcelainFormListState extends State<PorcelainFormList> {
   String title = "OC Picture (Porcelain) Production Form";
   String urlRoute = "/productionPicture/index";
   String urlAdd = "/productionPicture/add";
-  String url = "http://127.0.0.1:8000/api/jwt/productionPicture/index";
-  String addUrl = "http://127.0.0.1:8000/api/jwt/productionPicture/store";
-  String removeUrl = "http://127.0.0.1:8000/api/jwt/productionPicture/destroy/";
+  String url = Utility.baseUrl + "productionPicture/index";
+  String addUrl = Utility.baseUrl + "productionPicture/store";
+  String removeUrl = Utility.baseUrl + "productionPicture/destroy/";
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

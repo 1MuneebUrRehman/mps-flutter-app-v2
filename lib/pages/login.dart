@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mps_app/pages/home.dart';
 import 'package:mps_app/utils/requests/all_requests.dart';
 import 'package:mps_app/widgets/alert_dialog.dart';
 
@@ -99,8 +100,12 @@ class _LoginState extends State<Login> {
                                   if (responseData == 200) {
                                     emailController.text = "";
                                     passwordController.text = "";
-                                    Navigator.of(context)
-                                        .pushReplacementNamed('/home');
+                                    Navigator.pushAndRemoveUntil(context,
+                                        MaterialPageRoute(
+                                      builder: (BuildContext context) {
+                                        return const Home();
+                                      },
+                                    ), (route) => false);
                                   } else {
                                     showDialog(
                                         context: context,

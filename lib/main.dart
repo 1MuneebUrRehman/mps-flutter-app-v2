@@ -7,9 +7,11 @@ import 'package:mps_app/pages/production/porcelain/porcelain_form.dart';
 import 'package:mps_app/pages/production/porcelain/porcelain_form_list.dart';
 import 'package:mps_app/pages/production/sandblasting/sandblasting_form.dart';
 import 'package:mps_app/pages/production/sandblasting/sandblasting_form_list.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mps_app/utils/classes/custom_shared_preferences.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CustomSharedPreferences.init();
   runApp(const MyApp());
 }
 
@@ -67,7 +69,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  late SharedPreferences sharedPreferences;
   final bool _isLoading = true;
 
   @override
@@ -77,16 +78,16 @@ class _MainPageState extends State<MainPage> {
   }
 
   checkLogin() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getString("token") == null) {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => const Login()),
-          (Route<dynamic> route) => false);
-    } else {
+    var token = await CustomSharedPreferences.getToken();
+    if (token != null) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const Home()),
       );
+    } else {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (BuildContext context) => const Login()),
+          (Route<dynamic> route) => false);
     }
   }
 

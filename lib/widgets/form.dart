@@ -3,6 +3,7 @@ import 'package:mps_app/pages/production/porcelain/porcelain_form_list.dart';
 import 'package:mps_app/utils/requests/all_requests.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:mps_app/utils/utility.dart';
 import 'package:mps_app/widgets/bottom_navigation.dart';
 import 'package:mps_app/widgets/navigation_drawer.dart';
 import 'package:mps_app/widgets/reuseable_widgets.dart';
@@ -51,7 +52,7 @@ class _FormWidgetState extends State<FormWidget> {
 
   postData(data) async {
     int statusCode = await AllRequests.postData(
-        "http://127.0.0.1:8000/api/jwt/productionSandblasting/store", data);
+        Utility.baseUrl + "productionSandblasting/store", data);
     if (statusCode == 200) {
       Navigator.push(
         context,
@@ -96,7 +97,7 @@ class _FormWidgetState extends State<FormWidget> {
             body: Scaffold(
                 appBar: AppBar(
                   centerTitle: true,
-                  backgroundColor: const Color.fromRGBO(51, 103, 153, 1),
+                  backgroundColor: Utility.primaryColor,
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -108,8 +109,7 @@ class _FormWidgetState extends State<FormWidget> {
                           'Delete',
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: const Color.fromRGBO(
-                              215, 193, 13, 1), // background
+                          primary: Utility.secondaryColor, // background
                           onPrimary: Colors.black, // foreground
                         ),
                       ),

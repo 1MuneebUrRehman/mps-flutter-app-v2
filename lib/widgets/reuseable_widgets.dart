@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ReusableWidgets {
-  
   static getAppBar() {
     return AppBar(
       centerTitle: true,
       title: Image.asset('assets/logo.png', fit: BoxFit.cover),
       foregroundColor: Colors.black,
-      backgroundColor: Colors.white38,
+      backgroundColor: const Color.fromRGBO(239, 239, 239, 1),
       actions: <Widget>[
         PopupMenuButton(
           icon: const Icon(Icons.more_vert),
@@ -18,7 +17,7 @@ class ReusableWidgets {
     );
   }
 
-    static getAppBarForm(String title) {
+  static getAppBarForm(String title) {
     return AppBar(
       centerTitle: true,
       title: Text(
@@ -26,7 +25,7 @@ class ReusableWidgets {
         style: const TextStyle(color: Colors.black, fontSize: 15),
       ),
       automaticallyImplyLeading: false,
-      backgroundColor: Colors.white38,
+      backgroundColor: const Color.fromRGBO(239, 239, 239, 1),
     );
   }
 }

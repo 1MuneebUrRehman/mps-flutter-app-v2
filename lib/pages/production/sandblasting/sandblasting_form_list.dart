@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mps_app/utils/utility.dart';
 import 'package:mps_app/widgets/form_list.dart';
 
 class SandBlastingFormList extends StatefulWidget {
@@ -12,9 +13,9 @@ class _SandBlastingFormListState extends State<SandBlastingFormList> {
   String title = "Sandblasting Production Form";
   String urlRoute = "/productionSandblasting/index";
   String urlAdd = "/productionSandblasting/add";
-  String url = "http://127.0.0.1:8000/api/jwt/productionSandblasting/index";
-  String addUrl = "http://127.0.0.1:8000/api/jwt/productionSandblasting/store";
-  String removeUrl = "http://127.0.0.1:8000/api/jwt/productionSandblasting/destroy/";
+  String url = Utility.baseUrl + "productionSandblasting/index";
+  String addUrl = Utility.baseUrl + "productionSandblasting/store";
+  String removeUrl = Utility.baseUrl + "productionSandblasting/destroy/";
   // String editUrl = "";
 
   @override

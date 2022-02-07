@@ -4,6 +4,7 @@ import 'package:mps_app/pages/production/porcelain/porcelain_form.dart';
 import 'package:mps_app/pages/production/sandblasting/sandblasting_form.dart';
 import 'package:mps_app/utils/requests/all_requests.dart';
 import 'package:mps_app/utils/requests/get_order_list.dart';
+import 'package:mps_app/utils/utility.dart';
 import 'package:mps_app/widgets/bottom_navigation.dart';
 import 'package:mps_app/widgets/navigation_drawer.dart';
 import 'package:mps_app/widgets/reuseable_widgets.dart';
@@ -56,7 +57,7 @@ class _FormListWidgetState extends State<FormListWidget> {
             child: Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                backgroundColor: const Color.fromRGBO(51, 103, 153, 1),
+                backgroundColor: Utility.primaryColor,
                 actions: <Widget>[
                   IconButton(
                     onPressed: () {
@@ -137,7 +138,7 @@ class _FormListWidgetState extends State<FormListWidget> {
                                 String urlName = widget.urlRoute.split("/")[1];
                                 switch (urlName) {
                                   case "productionPicture":
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ProductionForm(
@@ -147,7 +148,7 @@ class _FormListWidgetState extends State<FormListWidget> {
                                     );
                                     break;
                                   case "productionLaser":
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => LaserForm(
@@ -157,7 +158,7 @@ class _FormListWidgetState extends State<FormListWidget> {
                                     );
                                     break;
                                   case "productionSandblasting":
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>

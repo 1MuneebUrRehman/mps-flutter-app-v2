@@ -84,33 +84,6 @@ class _HomeState extends State<Home> {
                           color: Colors.white),
                     )),
               ),
-              // ElevatedButton(
-              //     onPressed: () {},
-              //     child: const Text(
-              //       'INSTALLATION',
-              //       style: TextStyle(
-              //           fontSize: 20,
-              //           fontWeight: FontWeight.bold,
-              //           color: Colors.white),
-              //     )),
-              // ElevatedButton(
-              //     onPressed: () {},
-              //     child: const Text(
-              //       'PRODUCTION',
-              //       style: TextStyle(
-              //           fontSize: 20,
-              //           fontWeight: FontWeight.bold,
-              //           color: Colors.white),
-              //     )),
-              // ElevatedButton(
-              //     onPressed: () {},
-              //     child: const Text(
-              //       'CEMETETY',
-              //       style: TextStyle(
-              //           fontSize: 20,
-              //           fontWeight: FontWeight.bold,
-              //           color: Colors.white),
-              //     )),
             ],
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:mps_app/pages/production/laser/laser_form_list.dart';
 import 'package:mps_app/utils/requests/all_requests.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:mps_app/utils/utility.dart';
 import 'package:mps_app/widgets/bottom_navigation.dart';
 import 'package:mps_app/widgets/navigation_drawer.dart';
 import 'package:mps_app/widgets/reuseable_widgets.dart';
@@ -34,7 +35,7 @@ class _LaserFormState extends State<LaserForm> {
   List<dynamic> orderList = [];
   String? orderListId;
   Map? editData;
-  final String showUrl = "http://127.0.0.1:8000/api/jwt/productionLaser/show/";
+  final String showUrl = Utility.baseUrl + "productionLaser/show/";
 
   editDataFunc() async {
     var data = await AllRequests.showData(showUrl + widget.dataId);
@@ -75,20 +76,28 @@ class _LaserFormState extends State<LaserForm> {
 
   postData(data) async {
     int statusCode = await AllRequests.postData(
-        "http://127.0.0.1:8000/api/jwt/productionLaser/store", data);
+        Utility.baseUrl + "productionLaser/store", data);
     if (statusCode == 200) {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const LaserFormList()),
       );
     } else {
-      AlertDialog(
-        title: const Text("Error...!"),
-        content: const Text("Please Fill your Form Correctly...!"),
-        actions: [
-          ElevatedButton(onPressed: () {}, child: const Text("OK")),
-        ],
-      );
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Error...!"),
+              content: const Text("Please Fill your Form Correctly...!"),
+              actions: [
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context, true);
+                    },
+                    child: const Text("OK")),
+              ],
+            );
+          });
     }
   }
 
@@ -123,7 +132,7 @@ class _LaserFormState extends State<LaserForm> {
             body: Scaffold(
                 appBar: AppBar(
                   centerTitle: true,
-                  backgroundColor: const Color.fromRGBO(51, 103, 153, 1),
+                  backgroundColor: Utility.primaryColor,
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -135,8 +144,7 @@ class _LaserFormState extends State<LaserForm> {
                           'Delete',
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: const Color.fromRGBO(
-                              215, 193, 13, 1), // background
+                          primary: Utility.secondaryColor, // background
                           onPrimary: Colors.black, // foreground
                         ),
                       ),

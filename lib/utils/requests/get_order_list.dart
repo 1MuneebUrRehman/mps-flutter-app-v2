@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mps_app/utils/classes/custom_shared_preferences.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -41,7 +42,13 @@ List<GridColumn> getColumns() {
 
 // Get Request
 Future<List<Product>> generateProductList(String url) async {
-  var response = await http.get(Uri.parse(url));
+  var token = CustomSharedPreferences.getToken();
+
+  var response = await http.get(Uri.parse(url), headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer $token',
+  });
   // Decode Data
   var decodedProducts = json.decode(response.body).cast<Map<String, dynamic>>();
   // Convert to List Product
@@ -61,9 +68,9 @@ class OrderDataGridSource extends DataGridSource {
 
   @override
   List<DataGridRow> get rows => dataGridRows;
-
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
+    
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
