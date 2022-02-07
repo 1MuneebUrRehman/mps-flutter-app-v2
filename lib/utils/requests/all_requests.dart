@@ -5,27 +5,6 @@ import 'package:mps_app/utils/utility.dart';
 import 'package:http/http.dart' as http;
 
 class AllRequests {
-  static String loginUrl = "https://mps-dev.uforialogic.com/api/login";
-
-  static login(email, password) async {
-    try {
-      Map data = {'email': email, 'password': password};
-      var response = await http.post(Uri.parse(loginUrl), body: data, headers: {
-        "Accept": "application/json",
-        "Access-Control_Allow_Origin": "*"
-      });
-      if (response.statusCode == 200) {
-        var jsonResponse = json.decode(response.body);
-        await CustomSharedPreferences.setToken(jsonResponse['auth_token']);
-
-        return response.statusCode;
-      } else {
-        return response.statusCode;
-      }
-    } catch (e) {
-      return e;
-    }
-  }
 
   static Future<List> getInvoiceOrders() async {
     var token = CustomSharedPreferences.getToken();

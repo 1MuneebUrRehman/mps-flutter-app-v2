@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mps_app/pages/home.dart';
+import 'package:mps_app/utils/classes/custom_shared_preferences.dart';
 import 'package:mps_app/utils/requests/all_requests.dart';
-import 'package:mps_app/widgets/alert_dialog.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class _LoginState extends State<Login> {
   final _loginFormKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  static String loginUrl = "https://mps-dev.uforialogic.com/api/login";
 
   @override
   Widget build(BuildContext context) {
@@ -94,37 +97,64 @@ class _LoginState extends State<Login> {
                               child: const Text('Login'),
                               onPressed: () async {
                                 if (_loginFormKey.currentState!.validate()) {
-                                  var responseData = await AllRequests.login(
-                                      emailController.text,
-                                      passwordController.text);
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                  if (responseData == 200) {
-                                    emailController.text = "";
-                                    passwordController.text = "";
-                                    Navigator.pushAndRemoveUntil(context,
-                                        MaterialPageRoute(
-                                      builder: (BuildContext context) {
-                                        return const Home();
-                                      },
-                                    ), (route) => false);
-                                  } else if (responseData == 422) {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return const AlertDialogWidget();
+                                  try {
+                                    Map data = {
+                                      'email': emailController.text,
+                                      'password': passwordController.text
+                                    };
+                                    var response = await http.post(
+                                        Uri.parse(loginUrl),
+                                        body: data,
+                                        headers: {
+                                          "Accept": "application/json",
+                                          "Access-Control_Allow_Origin": "*"
                                         });
                                     emailController.text = "";
                                     passwordController.text = "";
-                                  } else {
+                                    if (response.statusCode == 200) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      emailController.text = "";
+                                      passwordController.text = "";
+                                      var jsonResponse =
+                                          json.decode(response.body);
+
+                                      await CustomSharedPreferences.setToken(
+                                          jsonResponse['auth_token']);
+
+                                      Navigator.pushAndRemoveUntil(context,
+                                          MaterialPageRoute(
+                                        builder: (BuildContext context) {
+                                          return const Home();
+                                        },
+                                      ), (route) => false);
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text("Error...!"),
+                                              content: const Text(
+                                                  "Email and Password Not Matched...!"),
+                                              actions: [
+                                                ElevatedButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(
+                                                          context, true);
+                                                    },
+                                                    child: const Text("OK"))
+                                              ],
+                                            );
+                                          });
+                                    }
+                                  } catch (e) {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
                                             title: const Text("Error...!"),
-                                            content: const Text(
-                                                "Sorry for inconvenience...! Some Error occur."),
+                                            content: Text(e.toString()),
                                             actions: [
                                               ElevatedButton(
                                                   onPressed: () {
@@ -135,8 +165,6 @@ class _LoginState extends State<Login> {
                                             ],
                                           );
                                         });
-                                    emailController.text = "";
-                                    passwordController.text = "";
                                   }
                                 }
                               },
