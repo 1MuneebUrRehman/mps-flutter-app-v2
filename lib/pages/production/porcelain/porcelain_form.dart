@@ -35,6 +35,8 @@ class _ProductionFormState extends State<ProductionForm> {
   String? orderListId;
   Map? editData;
   final String showUrl = Utility.baseUrl + "productionPicture/show/";
+  String urlAdd = "/productionPicture/add";
+  String removeUrl = Utility.baseUrl + "productionPicture/destroy/";
 
   editDataFunc() async {
     var data = await AllRequests.showData(showUrl + widget.dataId);
@@ -47,11 +49,11 @@ class _ProductionFormState extends State<ProductionForm> {
   setDataFunc() {
     _id = editData!['id'];
     _lastName.text =
-        editData!['picture_list'][0]['order']['family']['name_on_stone'];
-    _sizeOfPhoto.text = editData!['picture_list'][0]['size_of_photo'];
-    _dateinput.text = editData!['date'];
-    _weekOf.text = editData!['week_of'];
-    _initials.text = editData!['picture_list'][0]['initials'];
+        editData!['picture_list'][0]['order']['family']['name_on_stone'] ?? "";
+    _sizeOfPhoto.text = editData!['picture_list'][0]['size_of_photo'] ?? "";
+    _dateinput.text = editData!['date'] ?? "";
+    _weekOf.text = editData!['week_of'] ?? "";
+    _initials.text = editData!['picture_list'][0]['initials'] ?? "";
     _complete = (editData!['picture_list'][0]['complete'] == 'YES') ? 1 : 2;
     _orderId = editData!['picture_list'][0]['order_id'].toString();
 
@@ -77,7 +79,6 @@ class _ProductionFormState extends State<ProductionForm> {
     int statusCode = await AllRequests.postData(
         Utility.baseUrl + "productionPicture/store", data);
     if (statusCode == 200) {
-      
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const PorcelainFormList()),
@@ -98,6 +99,14 @@ class _ProductionFormState extends State<ProductionForm> {
               ],
             );
           });
+    }
+  }
+
+  destroyData(destroyUrl) async {
+    var responseStatusCode = await AllRequests.deleteData(destroyUrl);
+    if (responseStatusCode == 200) {
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const PorcelainFormList()));
     }
   }
 
@@ -132,13 +141,45 @@ class _ProductionFormState extends State<ProductionForm> {
                 appBar: AppBar(
                   centerTitle: true,
                   backgroundColor: Utility.primaryColor,
+                  leading: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      Icons
+                          .arrow_back_ios_new_outlined, // add custom icons also
+                    ),
+                  ),
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       ElevatedButton(
-                          onPressed: () {}, child: const Text('Save')),
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Processing Data')),
+                              );
+                              Map<String, String?> data = {
+                                "id": _id.toString(),
+                                "week_of": _weekOf.text,
+                                "order_id": _orderId,
+                                "size_of_photo": _sizeOfPhoto.text,
+                                "complete": (_complete == 1) ? "YES" : "NO",
+                                "date": _dateinput.text,
+                                "initials": _initials.text,
+                                "total_entries": "1",
+                              };
+                              postData(data);
+                            }
+                          },
+                          child: const Text('Save')),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (widget.dataId != "0") {
+                            destroyData(removeUrl + widget.dataId);
+                          }
+                        },
                         child: const Text(
                           'Delete',
                         ),
@@ -156,7 +197,7 @@ class _ProductionFormState extends State<ProductionForm> {
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        //
+                        Navigator.pushNamed(context, urlAdd);
                       },
                     )
                   ],
@@ -209,7 +250,9 @@ class _ProductionFormState extends State<ProductionForm> {
                               const Divider(height: 10),
                               const SizedBox(height: 15),
                               ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, urlAdd);
+                                  },
                                   child: const Text("Add new Entry")),
                               const SizedBox(height: 15),
                               const Divider(height: 10),
@@ -381,30 +424,6 @@ class _ProductionFormState extends State<ProductionForm> {
                                     },
                                   )),
                               const SizedBox(height: 15),
-
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text('Processing Data')),
-                                    );
-                                    Map<String, String?> data = {
-                                      "id": _id.toString(),
-                                      "week_of": _weekOf.text,
-                                      "order_id": _orderId,
-                                      "size_of_photo": _sizeOfPhoto.text,
-                                      "complete":
-                                          (_complete == 1) ? "YES" : "NO",
-                                      "date": _dateinput.text,
-                                      "initials": _initials.text,
-                                      "total_entries": "1",
-                                    };
-                                    postData(data);
-                                  }
-                                },
-                                child: const Text('Submit'),
-                              ),
                             ],
                           ),
                         ),

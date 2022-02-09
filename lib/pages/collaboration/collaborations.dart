@@ -15,7 +15,6 @@ class Collaborations extends StatefulWidget {
 }
 
 class _CollaborationsState extends State<Collaborations> {
-
   final String url = "collaboration";
   @override
   Widget build(BuildContext context) {
@@ -38,6 +37,15 @@ class _CollaborationsState extends State<Collaborations> {
                 appBar: AppBar(
                   centerTitle: true,
                   backgroundColor: Utility.primaryColor,
+                  leading: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      Icons
+                          .arrow_back_ios_new_outlined, // add custom icons also
+                    ),
+                  ),
                 ),
                 body: FutureBuilder(
                   future: getCollaborationsList(url),

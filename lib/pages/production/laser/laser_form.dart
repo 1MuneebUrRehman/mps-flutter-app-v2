@@ -28,6 +28,7 @@ class _LaserFormState extends State<LaserForm> {
   final _weekOf = TextEditingController();
   final _initials = TextEditingController();
   final _sizeOfDie = TextEditingController();
+  String urlAdd = "/productionLaser/add";
 
   DateTime dateTime = DateTime.now();
   int _id = 0;
@@ -36,6 +37,7 @@ class _LaserFormState extends State<LaserForm> {
   String? orderListId;
   Map? editData;
   final String showUrl = Utility.baseUrl + "productionLaser/show/";
+  String removeUrl = Utility.baseUrl + "productionLaser/destroy/";
 
   editDataFunc() async {
     var data = await AllRequests.showData(showUrl + widget.dataId);
@@ -47,13 +49,13 @@ class _LaserFormState extends State<LaserForm> {
 
   setDataFunc() {
     _id = editData!['id'];
-    _dateinput.text = editData!['date'];
-    _weekOf.text = editData!['week_of'];
+    _dateinput.text = editData!['date'] ?? "";
+    _weekOf.text = editData!['week_of'] ?? "";
     _lastName.text =
-        editData!['laser_list'][0]['order']['family']['name_on_stone'];
-    _initials.text = editData!['laser_list'][0]['initials'];
-    _sizeOfDie.text = editData!['laser_list'][0]['size_of_die'];
-    _totalSqtft.text = editData!['laser_list'][0]['total_sq_ft'];
+        editData!['laser_list'][0]['order']['family']['name_on_stone'] ?? "";
+    _initials.text = editData!['laser_list'][0]['initials'] ?? "";
+    _sizeOfDie.text = editData!['laser_list'][0]['size_of_die'] ?? "";
+    _totalSqtft.text = editData!['laser_list'][0]['total_sq_ft'] ?? "";
     _orderId = editData!['laser_list'][0]['order_id'].toString();
 
     if (_id != 0) {
@@ -101,6 +103,14 @@ class _LaserFormState extends State<LaserForm> {
     }
   }
 
+  destroyData(destroyUrl) async {
+    var responseStatusCode = await AllRequests.deleteData(destroyUrl);
+    if (responseStatusCode == 200) {
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const LaserFormList()));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -133,13 +143,45 @@ class _LaserFormState extends State<LaserForm> {
                 appBar: AppBar(
                   centerTitle: true,
                   backgroundColor: Utility.primaryColor,
+                  leading: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Icon(
+                      Icons
+                          .arrow_back_ios_new_outlined, // add custom icons also
+                    ),
+                  ),
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       ElevatedButton(
-                          onPressed: () {}, child: const Text('Save')),
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Processing Data')),
+                              );
+                              Map<String, String?> data = {
+                                "id": _id.toString(),
+                                "week_of": _weekOf.text,
+                                "order_id": _orderId,
+                                "size_of_die": _sizeOfDie.text,
+                                "total_sq_ft": _totalSqtft.text,
+                                "date": _dateinput.text,
+                                "initials": _initials.text,
+                                "total_entries": "1",
+                              };
+                              postData(data);
+                            }
+                          },
+                          child: const Text('Save')),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (widget.dataId != "0") {
+                            destroyData(removeUrl + widget.dataId);
+                          }
+                        },
                         child: const Text(
                           'Delete',
                         ),
@@ -157,7 +199,7 @@ class _LaserFormState extends State<LaserForm> {
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        //
+                        Navigator.pushNamed(context, urlAdd);
                       },
                     )
                   ],
@@ -211,7 +253,9 @@ class _LaserFormState extends State<LaserForm> {
                               const SizedBox(height: 15),
 
                               ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, urlAdd);
+                                  },
                                   child: const Text("Add new Entry")),
 
                               const SizedBox(height: 15),
@@ -378,29 +422,6 @@ class _LaserFormState extends State<LaserForm> {
                                     },
                                   )),
                               const SizedBox(height: 15),
-
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text('Processing Data')),
-                                    );
-                                    Map<String, String?> data = {
-                                      "id": _id.toString(),
-                                      "week_of": _weekOf.text,
-                                      "order_id": _orderId,
-                                      "size_of_die": _sizeOfDie.text,
-                                      "total_sq_ft": _totalSqtft.text,
-                                      "date": _dateinput.text,
-                                      "initials": _initials.text,
-                                      "total_entries": "1",
-                                    };
-                                    postData(data);
-                                  }
-                                },
-                                child: const Text('Submit'),
-                              ),
                             ],
                           ),
                         ),

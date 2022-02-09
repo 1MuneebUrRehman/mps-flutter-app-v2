@@ -30,7 +30,6 @@ class FormListWidget extends StatefulWidget {
 }
 
 class _FormListWidgetState extends State<FormListWidget> {
-  
   destroyData(destroyUrl) async {
     var responseStatusCode = await AllRequests.deleteData(destroyUrl);
     if (responseStatusCode == 200) {
@@ -59,6 +58,14 @@ class _FormListWidgetState extends State<FormListWidget> {
               appBar: AppBar(
                 centerTitle: true,
                 backgroundColor: Utility.primaryColor,
+                leading: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios_new_outlined, // add custom icons also
+                  ),
+                ),
                 actions: <Widget>[
                   IconButton(
                     onPressed: () {
