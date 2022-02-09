@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Utility {
-  static String baseUrl = "https://mps-dev.uforialogic.com/api/mobile/";
-  static String loginUrl = "https://mps-dev.uforialogic.com/api/login";
-  
+  static String url = "https://mps-dev.uforialogic.com/api/";
+  static String baseUrl = url + "mobile/";
+  static String loginUrl = url + "login";
+
   static Color primaryColor = const Color.fromRGBO(51, 103, 153, 1);
   static Color secondaryColor = const Color.fromRGBO(215, 193, 13, 1);
 }
