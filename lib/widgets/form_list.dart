@@ -156,7 +156,7 @@ class _FormListWidgetState extends State<FormListWidget> {
                                     );
                                     break;
                                   case "productionLaser":
-                                    Navigator.pushReplacement(
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => LaserForm(
@@ -166,7 +166,7 @@ class _FormListWidgetState extends State<FormListWidget> {
                                     );
                                     break;
                                   case "productionSandblasting":
-                                    Navigator.pushReplacement(
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
