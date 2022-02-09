@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mps_app/pages/home.dart';
 import 'package:mps_app/utils/classes/custom_shared_preferences.dart';
-import 'package:mps_app/utils/requests/all_requests.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:mps_app/utils/utility.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -17,7 +17,6 @@ class _LoginState extends State<Login> {
   final _loginFormKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  static String loginUrl = "https://mps-dev.uforialogic.com/api/login";
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class _LoginState extends State<Login> {
           backgroundColor: Colors.white38,
         ),
         body: isLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator(strokeWidth: 3,))
             : Form(
                 key: _loginFormKey,
                 child: Padding(
@@ -103,7 +102,7 @@ class _LoginState extends State<Login> {
                                       'password': passwordController.text
                                     };
                                     var response = await http.post(
-                                        Uri.parse(loginUrl),
+                                        Uri.parse(Utility.loginUrl),
                                         body: data,
                                         headers: {
                                           "Accept": "application/json",

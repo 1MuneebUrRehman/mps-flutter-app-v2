@@ -30,6 +30,7 @@ class FormListWidget extends StatefulWidget {
 }
 
 class _FormListWidgetState extends State<FormListWidget> {
+  
   destroyData(destroyUrl) async {
     var responseStatusCode = await AllRequests.deleteData(destroyUrl);
     if (responseStatusCode == 200) {
@@ -138,7 +139,7 @@ class _FormListWidgetState extends State<FormListWidget> {
                                 String urlName = widget.urlRoute.split("/")[1];
                                 switch (urlName) {
                                   case "productionPicture":
-                                    Navigator.pushReplacement(
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ProductionForm(

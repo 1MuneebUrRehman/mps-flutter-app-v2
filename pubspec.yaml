@@ -39,6 +39,7 @@ dependencies:
   intl: ^0.17.0
   syncfusion_flutter_datagrid: ^19.1.69-beta
   snippet_coder_utils: ^1.0.9
+  image_picker: ^0.8.4+6
 
 dev_dependencies:
   flutter_test:
