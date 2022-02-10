@@ -5,7 +5,6 @@ import 'package:mps_app/utils/utility.dart';
 import 'package:http/http.dart' as http;
 
 class AllRequests {
-
   static Future<List> getInvoiceOrders() async {
     var token = CustomSharedPreferences.getToken();
     var response =
@@ -79,6 +78,15 @@ class AllRequests {
   }
 
   static logOut() async {
+    var token = CustomSharedPreferences.getToken();
+    
+    await http.post(Uri.parse(Utility.logoutUrl), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      "Access-Control_Allow_Origin": "*",
+      'Authorization': 'Bearer $token',
+    });
+    
     CustomSharedPreferences.removeToken();
   }
 }
