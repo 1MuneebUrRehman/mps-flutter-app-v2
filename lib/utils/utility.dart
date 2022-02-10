@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Utility {
-  static String url = "https://mps-dev.uforialogic.com/api/";
+  static String url = "https://mps.frisbiekiosk.com/api/";
   static String baseUrl = url + "mobile/";
   static String loginUrl = url + "login";
 
